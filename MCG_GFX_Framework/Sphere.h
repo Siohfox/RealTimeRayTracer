@@ -8,7 +8,7 @@ class Sphere
 {
 public:
 	
-	Colour ShadePixel(Ray _ray, glm::vec3);
+	Colour ShadePixel(Ray _ray, glm::vec3 _intersection);
 
 };
 

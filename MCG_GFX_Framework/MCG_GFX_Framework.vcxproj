@@ -153,12 +153,14 @@
     <ClCompile Include="MCG_GFX_Lib.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Tracer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="MCG_GFX_Lib.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="Tracer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "GLM/ext.hpp"
 #include "Camera.h"
+#include "Tracer.h"
 #include <list>
 #include <vector>
 
@@ -43,40 +44,32 @@ int main( int argc, char *argv[] )
 	*  MY STUFF
 	************************************************************/
 
-	glm::vec3 X (1, 0, 0), Y (0, 1, 0), Z(0, 0, 1);
-
-	glm::vec3 camPos(3, 1.5, -4);
-
-	glm::vec3 lookAt(0, 0, 0);
-
-	glm::vec3 diffBetweenCamAndTarget(camPos.x - lookAt.x, camPos.y - lookAt.y, camPos.z - lookAt.z);
-
-	glm::vec3 cameraDirection = glm::normalize(-diffBetweenCamAndTarget);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(X, cameraDirection));
-	glm::vec3 cameraDown = glm::cross(cameraRight, cameraDirection);
-
 	//Camera m_cam(glm::vec3(0.0f, -10.0f, -7.0f), glm::vec3(10.0f, 0.0f, 0.0f), 40.0f, glm::vec3(1, 0, 0), true);
 
-	std::vector< glm::ivec2> pixelCoords;
+	//std::vector< glm::ivec2> pixelCoords;
+	Camera cam;
+	Tracer tracer;
 
-	for (size_t i = 0; i < windowSize.x; i++)
-	{
-		for (size_t j = 0; j < windowSize.y; j++)
-		{
-			glm::ivec2 pos(i, j);
-			pixelCoords.push_back(pos);
-
-		
-		}
-	}
-
-	std::cout << pixelCoords.at(480).x << " " << pixelCoords.at(0).y << "\n";
+	
 
 	// This is our game loop
 	// It will run until the user presses 'escape' or closes the window
 	while( MCG::ProcessFrame() )
 	{
-		
+		for (size_t i = 0; i < windowSize.x; i++)
+	{
+		for (size_t j = 0; j < windowSize.y; j++)
+		{
+			glm::ivec2 pos(i, j);
+
+			Ray r = cam.CreateRay(pos);
+			
+			glm::vec3 colour = tracer.Trace(r);
+
+			MCG::DrawPixel(pos, colour);
+
+		}
+	}
 
 		// Set every pixel to the same colour
 		MCG::SetBackground( glm::vec3(0,0,0) );
@@ -84,7 +77,8 @@ int main( int argc, char *argv[] )
 		//// Change our pixel's X coordinate according to time
 		//pixelPosition.x = (windowSize.x / 2) + (int)(sin(timer) * 100.0f);
 		//// Update our time variable
-		//timer += 1.0f / 60.0f;
+		timer += 1.0f / 60.0f;
+		std::cout << timer << "\n";
 
 		// Draw the pixel to the screen
 		MCG::DrawPixel( pixelPosition, pixelColour );

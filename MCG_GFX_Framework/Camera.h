@@ -1,5 +1,6 @@
 #pragma once
 #include "GLM/glm.hpp"
+#include "Ray.h"
 
 class Camera
 {
@@ -8,43 +9,8 @@ public:
    */
 	Camera();
 
-	/** A method for making a game object in the scene
-   * @param glm::vec3 pos the position of the camera
-   * @param glm::vec3 orientation the orientation of the camera
-   * @param float angle the angle of the camera
-   * @param glm::vec3 rotAxis the rotation axis of the camera
-   * @param bool perspective whether the camera is perspective or orthographic
-   */
-	Camera(glm::vec3 position, glm::vec3 orientation, float angle, glm::vec3 rotAxis, bool perspective);
-
-	/** Camera deconstructor
-   */
-	~Camera();
-
-	/** Set projection of the camera
-   * @param glm::mat4 projection an input matrix for the projection of the camera
-   */
-	void SetProjection(glm::mat4 projection) { m_identity = projection; }
-
-	/** Get projection of the camera
-   * @return the camera's identity matrix
-   */
-	glm::mat4 GetProjection() { return m_identity; }
+	Ray CreateRay(glm::ivec2 pixelCoord);
 
 private:
-	/** Position of the object
-	*/
-	glm::vec3 m_position;
 
-	/** Orientation of the object
-	*/
-	glm::vec3 m_orientation;
-
-	/** Scale of the object
-	*/
-	glm::vec3 m_scale;
-
-	/** Identity matrix of the object
-	*/
-	glm::mat4 m_identity;
 };

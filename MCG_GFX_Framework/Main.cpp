@@ -3,6 +3,8 @@
 #include <iostream>
 #include "GLM/ext.hpp"
 #include "Camera.h"
+#include <list>
+#include <vector>
 
 
 
@@ -53,9 +55,22 @@ int main( int argc, char *argv[] )
 	glm::vec3 cameraRight = glm::normalize(glm::cross(X, cameraDirection));
 	glm::vec3 cameraDown = glm::cross(cameraRight, cameraDirection);
 
-	Camera sceneCam(camPos, cameraDirection, cameraRight, cameraDown);
+	//Camera m_cam(glm::vec3(0.0f, -10.0f, -7.0f), glm::vec3(10.0f, 0.0f, 0.0f), 40.0f, glm::vec3(1, 0, 0), true);
 
+	std::vector< glm::ivec2> pixelCoords;
 
+	for (size_t i = 0; i < windowSize.x; i++)
+	{
+		for (size_t j = 0; j < windowSize.y; j++)
+		{
+			glm::ivec2 pos(i, j);
+			pixelCoords.push_back(pos);
+
+		
+		}
+	}
+
+	std::cout << pixelCoords.at(480).x << " " << pixelCoords.at(0).y << "\n";
 
 	// This is our game loop
 	// It will run until the user presses 'escape' or closes the window

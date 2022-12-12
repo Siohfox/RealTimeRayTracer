@@ -20,6 +20,6 @@ private:
 	glm::vec3 m_orientation;
 	glm::vec3 m_scale;
 
-	glm::mat4 m_projection = glm::mat4(1.0f); ///< The projection matrix
+	glm::mat4 m_identity = glm::mat4(1.0f); ///< The projection matrix
 	glm::mat4 m_view = glm::mat4(1.0f); ///< The viewing matrix
 };

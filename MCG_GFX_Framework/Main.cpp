@@ -56,23 +56,24 @@ int main( int argc, char *argv[] )
 	// It will run until the user presses 'escape' or closes the window
 	while( MCG::ProcessFrame() )
 	{
-		for (size_t i = 0; i < windowSize.x; i++)
-	{
-		for (size_t j = 0; j < windowSize.y; j++)
-		{
-			glm::ivec2 pos(i, j);
-
-			Ray r = cam.CreateRay(pos);
-			
-			glm::vec3 colour = tracer.Trace(r);
-
-			MCG::DrawPixel(pos, colour);
-
-		}
-	}
-
 		// Set every pixel to the same colour
-		MCG::SetBackground( glm::vec3(0,0,0) );
+		MCG::SetBackground(glm::vec3(0, 0, 0));
+
+		for (size_t x = 0; x < windowSize.x; x++)
+		{
+			for (size_t y = 0; y < windowSize.y; y++)
+			{
+				glm::ivec2 pos(x, y);
+
+				Ray r = cam.CreateRay(pos);
+			
+				glm::vec3 colour = tracer.Trace(r);
+
+				MCG::DrawPixel(pos, colour);
+			}
+		}
+
+		
 
 		//// Change our pixel's X coordinate according to time
 		//pixelPosition.x = (windowSize.x / 2) + (int)(sin(timer) * 100.0f);

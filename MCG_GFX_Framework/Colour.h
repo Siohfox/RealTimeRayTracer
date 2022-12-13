@@ -5,8 +5,11 @@
 class Colour
 {
 public:
-	Colour(glm::vec4);
-private:
-	glm::vec4 m_colour;
+	Colour();
+
+	Colour(glm::vec3 colour);
+
+	glm::vec3 m_colour;
+	
 };
 

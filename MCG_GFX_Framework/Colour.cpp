@@ -1,6 +1,11 @@
 #include "Colour.h"
 
-Colour::Colour(glm::vec4)
+Colour::Colour()
 {
-	m_colour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	m_colour = glm::vec3(1.0f, 1.0f, 1.0f);
+}
+
+Colour::Colour(glm::vec3 colour)
+{
+	m_colour = glm::vec3(colour);
 }

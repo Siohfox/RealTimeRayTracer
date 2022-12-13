@@ -4,6 +4,7 @@
 #include "GLM/ext.hpp"
 #include "Camera.h"
 #include "Tracer.h"
+#include "Colour.h"
 #include <list>
 #include <vector>
 
@@ -69,15 +70,9 @@ int main( int argc, char *argv[] )
 
 				Ray r = cam.CreateRay(pos);
 			
-				glm::vec3 colour = tracer.Trace(r);
+				Colour colour = tracer.Trace(r);
 
-				if (colour == glm::vec3(1, 0, 0))
-				{
-					//std::cout << "x = " << x << std::endl;
-					//std::cout << "y = " << y << std::endl;
-				}
-
-				MCG::DrawPixel(pos, colour);
+				MCG::DrawPixel(pos, colour.m_colour);
 			}
 		}
 

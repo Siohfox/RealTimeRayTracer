@@ -2,8 +2,10 @@
 #define _TRACER_H
 
 #include "Ray.h"
+#include "Light.h"
 #include "MCG_GFX_Lib.h"
 #include "Sphere.h"
+#include "Colour.h"
 #include <vector>
 
 struct Intersect
@@ -19,7 +21,7 @@ class Tracer
 public:
 	Tracer();
 
-	glm::vec3 Trace(Ray _ray);
+	Colour Trace(Ray _ray);
 
 	glm::vec3 GetClosestPointToLine(Ray _ray, glm::vec3 _point);
 
@@ -27,6 +29,7 @@ public:
 
 private:
 	Sphere m_sphere;
+	Light light;
 	glm::vec3 m_closestPoint;
 	glm::vec3 m_origin;
 	glm::vec3 m_a;

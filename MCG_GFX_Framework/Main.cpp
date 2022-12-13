@@ -71,6 +71,12 @@ int main( int argc, char *argv[] )
 			
 				glm::vec3 colour = tracer.Trace(r);
 
+				if (colour == glm::vec3(1, 0, 0))
+				{
+					//std::cout << "x = " << x << std::endl;
+					//std::cout << "y = " << y << std::endl;
+				}
+
 				MCG::DrawPixel(pos, colour);
 			}
 		}
@@ -80,8 +86,8 @@ int main( int argc, char *argv[] )
 		//// Change our pixel's X coordinate according to time
 		//pixelPosition.x = (windowSize.x / 2) + (int)(sin(timer) * 100.0f);
 		//// Update our time variable
-		timer += 1.0f / 60.0f;
-		std::cout << timer << "\n";
+		//timer += 1.0f / 60.0f;
+		//std::cout << timer << "\n";
 
 		// Draw the pixel to the screen
 		//MCG::DrawPixel( pixelPosition, pixelColour );

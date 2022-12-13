@@ -26,6 +26,7 @@ public:
 	Intersect RaySphereIntersect(Ray _ray, Sphere _sphere);
 
 private:
+	Sphere m_sphere;
 	glm::vec3 m_closestPoint;
 	glm::vec3 m_origin;
 	glm::vec3 m_a;

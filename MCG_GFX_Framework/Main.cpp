@@ -50,6 +50,8 @@ int main( int argc, char *argv[] )
 	Camera cam;
 	Tracer tracer;
 
+	Sphere sphere();
+
 	
 
 	// This is our game loop
@@ -82,7 +84,7 @@ int main( int argc, char *argv[] )
 		std::cout << timer << "\n";
 
 		// Draw the pixel to the screen
-		MCG::DrawPixel( pixelPosition, pixelColour );
+		//MCG::DrawPixel( pixelPosition, pixelColour );
 
 	}
 

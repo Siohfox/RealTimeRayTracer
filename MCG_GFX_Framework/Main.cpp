@@ -16,41 +16,29 @@ void DoThing(glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mute
 {
 	// Set every pixel to the same colour
 	MCG::SetBackground(glm::vec3(0, 0, 0));
-	for (size_t i = 0; i < threadCount; i++)
+	for (size_t j = 0; j < threadCount; j++)
 	{
-		for (size_t x = 0; x < windowSize.x; x++)
-		{
-			for (size_t y = 0; y < windowSize.y; y++)
+		for (size_t i = 0; i < threadCount; i++)
 			{
-				glm::ivec2 pos(x, y);
+			for (size_t x = 0; x < windowSize.x / threadCount; x++)
+				{
+					for (size_t y = 0; y < windowSize.y / threadCount; y++)
+					{
+						glm::ivec2 pos(x + (windowSize.x / threadCount) * i, y + (windowSize.y / threadCount) * j);
 
-				Ray r = _cam.CreateRay(pos);
+						Ray r = _cam.CreateRay(pos);
 
-				Colour colour = tracer.Trace(r);
+						Colour colour = tracer.Trace(r);
 
-				mutex->lock();
-				MCG::DrawPixel(pos, colour.m_colour);
-				mutex->unlock();
-			}
+						mutex->lock();
+						MCG::DrawPixel(pos, colour.m_colour);
+						mutex->unlock();
+					}
+				}
 		}
 	}
 	
-	for (size_t x = windowSize.x; x < windowSize.x; x++)
-	{
-		for (size_t y = 0; y < windowSize.y; y++)
-		{
-			glm::ivec2 pos(x, y);
-
-			Ray r = _cam.CreateRay(pos);
-
-			Colour colour = tracer.Trace(r);
-
-			//mutex
-			mutex->lock();
-			MCG::DrawPixel(pos, colour.m_colour);
-			mutex->unlock();
-		}
-	}
+		
 }
 
 int main( int argc, char *argv[] )
@@ -102,7 +90,7 @@ int main( int argc, char *argv[] )
 	// Spawn threads, do stuff
 	std::vector<std::thread> threads;
 
-	int threadCount = 10;
+	int threadCount = 20;
 
 	for (int i = 0; i < threadCount; i++)
 	{

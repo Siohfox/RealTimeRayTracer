@@ -5,10 +5,53 @@
 #include "Camera.h"
 #include "Tracer.h"
 #include "Colour.h"
+#include <chrono>
 #include <list>
 #include <vector>
+#include <thread>
+#include <mutex>
 
 
+void DoThing(glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mutex, int threadCount)
+{
+	// Set every pixel to the same colour
+	MCG::SetBackground(glm::vec3(0, 0, 0));
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		for (size_t x = 0; x < windowSize.x; x++)
+		{
+			for (size_t y = 0; y < windowSize.y; y++)
+			{
+				glm::ivec2 pos(x, y);
+
+				Ray r = _cam.CreateRay(pos);
+
+				Colour colour = tracer.Trace(r);
+
+				mutex->lock();
+				MCG::DrawPixel(pos, colour.m_colour);
+				mutex->unlock();
+			}
+		}
+	}
+	
+	for (size_t x = windowSize.x; x < windowSize.x; x++)
+	{
+		for (size_t y = 0; y < windowSize.y; y++)
+		{
+			glm::ivec2 pos(x, y);
+
+			Ray r = _cam.CreateRay(pos);
+
+			Colour colour = tracer.Trace(r);
+
+			//mutex
+			mutex->lock();
+			MCG::DrawPixel(pos, colour.m_colour);
+			mutex->unlock();
+		}
+	}
+}
 
 int main( int argc, char *argv[] )
 {
@@ -39,6 +82,8 @@ int main( int argc, char *argv[] )
 	// Variable to keep track of time
 	float timer = 0.0f;
 
+	std::mutex* mtx = new std::mutex;
+
 
 
 	/***********************************************************
@@ -51,42 +96,34 @@ int main( int argc, char *argv[] )
 	Camera cam;
 	Tracer tracer;
 
-	Sphere sphere();
+	// get time at point
+	std::chrono::steady_clock::time_point time1 = std::chrono::high_resolution_clock::now();
 
-	
+	// Spawn threads, do stuff
+	std::vector<std::thread> threads;
 
+	int threadCount = 10;
+
+	for (int i = 0; i < threadCount; i++)
+	{
+		threads.emplace_back(DoThing, windowSize, cam, tracer, mtx, threadCount);
+	}
+
+	// Join all threads at end
+	for (int i = 0; i < threads.size(); i++)
+	{
+		threads[i].join();
+	}
+
+	std::chrono::steady_clock::time_point time2 = std::chrono::high_resolution_clock::now();
+	std::chrono::milliseconds milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(time2 - time1);
+
+	std::cout << "Time taken: " << milliseconds.count() << std::endl;
 	// This is our game loop
 	// It will run until the user presses 'escape' or closes the window
 	while( MCG::ProcessFrame() )
 	{
-		// Set every pixel to the same colour
-		MCG::SetBackground(glm::vec3(0, 0, 0));
-
-		for (size_t x = 0; x < windowSize.x; x++)
-		{
-			for (size_t y = 0; y < windowSize.y; y++)
-			{
-				glm::ivec2 pos(x, y);
-
-				Ray r = cam.CreateRay(pos);
-			
-				Colour colour = tracer.Trace(r);
-
-				MCG::DrawPixel(pos, colour.m_colour);
-			}
-		}
-
 		
-
-		//// Change our pixel's X coordinate according to time
-		//pixelPosition.x = (windowSize.x / 2) + (int)(sin(timer) * 100.0f);
-		//// Update our time variable
-		//timer += 1.0f / 60.0f;
-		//std::cout << timer << "\n";
-
-		// Draw the pixel to the screen
-		//MCG::DrawPixel( pixelPosition, pixelColour );
-
 	}
 
 	return 0;

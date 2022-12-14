@@ -3,13 +3,12 @@
 
 #include "GLM/glm.hpp"
 #include "Colour.h"
+#include "SceneObject.h"
 
 class Colour;
 
-class Light
+class Light : SceneObject
 {
-	
-
 public:
 	Light();
 

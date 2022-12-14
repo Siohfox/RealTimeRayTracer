@@ -9,7 +9,6 @@ Tracer::Tracer() : m_sphere{glm::vec3(320, 240, -200), 100}
 
 Colour Tracer::Trace(Ray _ray)
 {
-
     Intersect intersection = RaySphereIntersect(_ray, m_sphere);
     // test for sphere
     if (intersection.hit)
@@ -19,7 +18,7 @@ Colour Tracer::Trace(Ray _ray)
     }
     else // return background colour
     {
-        Colour col(glm::vec3(0, 0, 0));
+        Colour col(glm::vec3(1, 1, 1));
         return col;
     }
 }
@@ -57,6 +56,7 @@ Intersect Tracer::RaySphereIntersect(Ray _ray, Sphere _sphere)
             return intersect;
         }
         // 1 intersect
+        /*
         else if (dist == _sphere.m_radius)
         {
             intersect.hit = true;
@@ -64,6 +64,7 @@ Intersect Tracer::RaySphereIntersect(Ray _ray, Sphere _sphere)
             return intersect;
         }
         // 2 intersects
+        */
         else
         {
             intersect.hit = true;
@@ -73,3 +74,10 @@ Intersect Tracer::RaySphereIntersect(Ray _ray, Sphere _sphere)
         }
     } 
 }
+
+void Tracer::AddSphere(Sphere sphere)
+{
+    m_spheres.push_back(sphere);
+}
+
+

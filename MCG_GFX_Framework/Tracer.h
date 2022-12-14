@@ -6,6 +6,7 @@
 #include "MCG_GFX_Lib.h"
 #include "Sphere.h"
 #include "Colour.h"
+#include "Camera.h"
 #include <vector>
 
 struct Intersect
@@ -27,8 +28,11 @@ public:
 
 	Intersect RaySphereIntersect(Ray _ray, Sphere _sphere);
 
+	void AddSphere(Sphere sphere);
+
 private:
 	Sphere m_sphere;
+	std::vector<Sphere> m_spheres;
 	Light light;
 	glm::vec3 m_closestPoint;
 	glm::vec3 m_origin;

@@ -15,8 +15,9 @@ public:
 
 	glm::mat4 GetProjection() { return m_identity; }
 
-private:
 	glm::vec3 m_position;
+
+private:
 	glm::vec3 m_orientation;
 	glm::vec3 m_scale;
 

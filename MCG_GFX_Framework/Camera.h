@@ -9,15 +9,26 @@ public:
    */
 	Camera();
 
+	/**
+	 * @brief Creates a ray at a given coordinate, fired in the -Z direction
+	 * @param pixelCoord The pixel coordinate to fire a ray from
+	 * @return The ray created
+	*/
 	Ray CreateRay(glm::ivec2 pixelCoord);
 
+	/**
+	 * @brief Sets the projection of the camera
+	 * @param the projection to be set to
+	*/
 	void SetProjection(glm::mat4 projection) { m_identity = projection; }
 
+	/**
+	 * @brief Getter for the projection
+	 * @return The matrix projection of the camera
+	*/
 	glm::mat4 GetProjection() { return m_identity; }
 
 	glm::vec3 m_position;
-
-private:
 	glm::vec3 m_orientation;
 	glm::vec3 m_scale;
 

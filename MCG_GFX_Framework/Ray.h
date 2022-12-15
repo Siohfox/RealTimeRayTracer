@@ -7,12 +7,14 @@ class Ray
 {
 public:
 
-	Ray(glm::vec3, glm::vec3);
+	/**
+	 * @brief Constructs a ray
+	 * @param  The origin of the ray
+	 * @param  The direction of the ray
+	*/
+	Ray(glm::vec3 _origin, glm::vec3 _direction);
 
-	glm::vec3 m_origin, m_direction;
-
-private:
-	
+	glm::vec3 m_origin, m_direction;	
 };
 
 #endif

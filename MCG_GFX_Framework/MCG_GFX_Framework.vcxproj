@@ -28,13 +28,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -150,21 +150,17 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colour.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MCG_GFX_Lib.cpp" />
     <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Tracer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colour.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="MCG_GFX_Lib.h" />
     <ClInclude Include="Ray.h" />
-    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Tracer.h" />
   </ItemGroup>

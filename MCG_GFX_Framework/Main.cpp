@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Tracer.h"
 #include "Colour.h"
+#include "Sphere.h"
 #include <chrono>
 #include <list>
 #include <vector>
@@ -14,31 +15,27 @@
 
 void DoThing(glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mutex, int threadCount)
 {
-	// Set every pixel to the same colour
-	MCG::SetBackground(glm::vec3(0, 0, 0));
 	for (size_t j = 0; j < threadCount; j++)
 	{
 		for (size_t i = 0; i < threadCount; i++)
-			{
+		{
 			for (size_t x = 0; x < windowSize.x / threadCount; x++)
+			{
+				for (size_t y = 0; y < windowSize.y / threadCount; y++)
 				{
-					for (size_t y = 0; y < windowSize.y / threadCount; y++)
-					{
-						glm::ivec2 pos(x + (windowSize.x / threadCount) * i, y + (windowSize.y / threadCount) * j);
+					glm::ivec2 pos(x + (windowSize.x / threadCount) * i, y + (windowSize.y / threadCount) * j);
 
-						Ray r = _cam.CreateRay(pos);
+					Ray r = _cam.CreateRay(pos);
 
-						Colour colour = tracer.Trace(r);
+					Colour colour = tracer.Trace(r);
 
-						mutex->lock();
-						MCG::DrawPixel(pos, colour.m_colour);
-						mutex->unlock();
-					}
+					mutex->lock();
+					MCG::DrawPixel(pos, colour.m_colour);
+					mutex->unlock();
 				}
+			}
 		}
-	}
-	
-		
+	}	
 }
 
 int main( int argc, char *argv[] )
@@ -64,25 +61,20 @@ int main( int argc, char *argv[] )
 	// Preparing a colour to draw
 	// Colours are RGB, each value ranges between 0 and 1
 	glm::vec3 pixelColour( 1, 0, 0 );
-
-	// Advanced access - comment out the above DrawPixel and MCG::ShowAndHold lines, then uncomment the following:
 	
 	// Variable to keep track of time
 	float timer = 0.0f;
 
 	std::mutex* mtx = new std::mutex;
-
-
-
-	/***********************************************************
-	*  MY STUFF
-	************************************************************/
-
-	//Camera m_cam(glm::vec3(0.0f, -10.0f, -7.0f), glm::vec3(10.0f, 0.0f, 0.0f), 40.0f, glm::vec3(1, 0, 0), true);
-
-	//std::vector< glm::ivec2> pixelCoords;
 	Camera cam;
 	Tracer tracer;
+
+	// Spheres
+	Sphere sphere1(glm::vec3(320, 240, -200), 100);
+	Sphere sphere2(glm::vec3(420, 280, -200), 100);
+
+	tracer.AddSphere(sphere1);
+	tracer.AddSphere(sphere2);
 
 	// get time at point
 	std::chrono::steady_clock::time_point time1 = std::chrono::high_resolution_clock::now();
@@ -90,7 +82,7 @@ int main( int argc, char *argv[] )
 	// Spawn threads, do stuff
 	std::vector<std::thread> threads;
 
-	int threadCount = 20;
+	int threadCount = 1;
 
 	for (int i = 0; i < threadCount; i++)
 	{

@@ -19,11 +19,13 @@ Colour Tracer::Trace(Ray _ray)
         }
         else // return background colour
         {
-            Colour col(glm::vec3(1, 1, 1));
-            return col;
+            //Colour col(glm::vec3(1, 1, 1));
+            //return col;
         }
     }
 
+    Colour col(glm::vec3(1, 1, 1));
+    return col;
 }
 
 glm::vec3 Tracer::GetClosestPointToLine(Ray _ray, glm::vec3 _queryPoint)

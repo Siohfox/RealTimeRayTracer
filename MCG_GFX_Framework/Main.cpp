@@ -12,8 +12,8 @@
 #include <thread>
 #include <mutex>
 
-
-void DoThing(glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mutex, int threadCount)
+/*
+void DoThing(int id, glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mutex, int threadCount)
 {
 	for (size_t j = 0; j < threadCount; j++)
 	{
@@ -35,13 +35,35 @@ void DoThing(glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mute
 				}
 			}
 		}
-	}	
+	}
+}
+
+*/
+
+void DoThing(int id, glm::ivec2 windowSize, Camera _cam, Tracer tracer, std::mutex* mutex, int threadCount)
+{
+	for (size_t y = id; y < windowSize.y; y += threadCount)
+	{
+		for (size_t x = 0; x < windowSize.x; x++)
+		{
+			glm::ivec2 pos(x, y);
+
+			Ray r = _cam.CreateRay(pos);
+
+			Colour colour = tracer.Trace(r);
+
+			mutex->lock();
+			MCG::DrawPixel(pos, colour.m_colour);
+			mutex->unlock();
+		}
+
+	}
 }
 
 int main( int argc, char *argv[] )
 {
 	// Variable for storing window dimensions
-	glm::ivec2 windowSize( 640, 480 );
+	glm::ivec2 windowSize( 2048, 1024 );
 
 	// Call MCG::Init to initialise and create your window
 	// Tell it what size you want the window to be
@@ -70,11 +92,14 @@ int main( int argc, char *argv[] )
 	Tracer tracer;
 
 	// Spheres
-	Sphere sphere1(glm::vec3(320, 240, -200), 100);
-	Sphere sphere2(glm::vec3(420, 280, -200), 100);
+	
 
-	tracer.AddSphere(sphere1);
-	tracer.AddSphere(sphere2);
+	for (int i = 0; i < 2; ++i)
+	{
+		Sphere sphere1(glm::vec3(300 + (i * 100), 240, -200), 100, glm::vec3((1.0f, 0.0f, 1.0f)));
+		tracer.AddSphere(sphere1);
+	}
+
 
 	// get time at point
 	std::chrono::steady_clock::time_point time1 = std::chrono::high_resolution_clock::now();
@@ -82,11 +107,11 @@ int main( int argc, char *argv[] )
 	// Spawn threads, do stuff
 	std::vector<std::thread> threads;
 
-	int threadCount = 1;
+	int threadCount = 16;
 
 	for (int i = 0; i < threadCount; i++)
 	{
-		threads.emplace_back(DoThing, windowSize, cam, tracer, mtx, threadCount);
+		threads.emplace_back(DoThing, i, windowSize, cam, tracer, mtx, threadCount);
 	}
 
 	// Join all threads at end

@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "GLM/ext.hpp"
 
 
 Camera::Camera()
@@ -6,6 +7,8 @@ Camera::Camera()
 	//m_identity = glm::perspective(glm::radians(45.0f), (float)600 / (float)600, 0.1f, 100.f);
 	m_position = glm::vec3{ 0.0f };
 	m_orientation = glm::vec3{ 0.0f };
+
+	//glm::perspective
 }
 
 /**

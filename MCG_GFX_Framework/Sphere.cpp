@@ -8,7 +8,7 @@ Sphere::Sphere()
     m_sphereColour = Colour(glm::vec3(1.0f, 0.0f, 1.0f));
 }
 
-Sphere::Sphere(glm::vec3 _centre, int _radius)
+Sphere::Sphere(glm::vec3 _centre, int _radius, Colour col)
 {
     m_centre = _centre;
     m_radius = _radius;
@@ -18,12 +18,16 @@ Colour Sphere::ShadePixel(Ray _ray, glm::vec3 _intersection)
 {
     Camera cam;
 
-    glm::vec3 lightDir(1, 0, 0);
+    glm::vec3 lightDir(1, 0, 1);
 
     //diffuse shading
     float diffuse = glm::max(glm::dot(lightDir, GetSphereNormal(_intersection, cam)), 0.0f);
 
-    Colour col = Colour(glm::vec3(1.0f, 0.0f, 0.0f) * diffuse);
+
+    glm::vec3 half = (glm::normalize(glm::vec3(0) + lightDir)); //view dir + light dir
+    float spec = glm::pow(glm::max(glm::dot(GetSphereNormal(_intersection, cam), half), 0.0f), 5.0f);
+
+    Colour col = Colour(glm::vec3(1.0f, 0.0f, 0.0f) * (diffuse + spec));
     return col;
 }
 

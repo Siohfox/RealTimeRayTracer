@@ -15,7 +15,7 @@ public:
 	 * @param _centre The centre of the sphere
 	 * @param _radius The radius of the sphere
 	*/
-	Sphere(glm::vec3 _centre, int _radius);
+	Sphere(glm::vec3 _centre, int _radius, Colour col);
 
 	/**
 	 * @brief A function that shades a pixel from a ray
